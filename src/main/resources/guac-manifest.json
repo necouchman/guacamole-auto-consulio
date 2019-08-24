@@ -1,0 +1,15 @@
+{
+    "guacamoleVersion" : "1.0.0",
+
+    "name"             : "ConsulIO Authentication Extension",
+    "namespace"        : "consulio",
+
+    "authProviders"    : [
+        "org.apache.guacamole.auth.consulio.ConsulIOAuthenticationProvider"
+    ],
+    
+    "translations" : [
+        "translations/en.json"
+    ]
+
+}
