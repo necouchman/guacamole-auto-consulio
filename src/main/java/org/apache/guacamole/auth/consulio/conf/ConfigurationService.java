@@ -60,6 +60,17 @@ public class ConfigurationService {
     };
     
     /**
+     * The token to use to authenticate with the Consule.IO HTTP API endpoint.
+     */
+    private static final StringGuacamoleProperty CONSUL_IO_TOKEN =
+            new StringGuacamoleProperty() {
+                
+        @Override
+        public String getName() { return "consul-io-token"; }
+                
+    };
+    
+    /**
      * Retrieve the hostname of the Consul.IO server to connect to, or localhost
      * if none is specified.
      * 
@@ -85,6 +96,20 @@ public class ConfigurationService {
      */
     public int getConsulPort() throws GuacamoleException {
         return environment.getProperty(CONSUL_IO_PORT, 8500);
+    }
+    
+    /**
+     * Retrieve the token, if configured, to use to authenticate with the
+     * Consul.IO service.
+     * 
+     * @return
+     *     The token to use for Consul.IO authentication.
+     * 
+     * @throws GuacamoleException 
+     *     If guacamole.properties cannot be parsed.
+     */
+    public String getConsulToken() throws GuacamoleException {
+        return environment.getProperty(CONSUL_IO_TOKEN);
     }
     
 }

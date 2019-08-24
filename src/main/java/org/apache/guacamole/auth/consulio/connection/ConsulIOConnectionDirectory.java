@@ -160,11 +160,16 @@ public class ConsulIOConnectionDirectory extends SimpleDirectory<Connection> {
      * @return 
      *     A list of CatalogService items that have been tagged for Guacamole.
      */
-    private List<CatalogService> getServices() {
+    private List<CatalogService> getServices() throws GuacamoleException {
+        
+        String token = confService.getConsulToken();
         
         // Retrieve all services
-        CatalogServicesRequest svcsRequest =
-                CatalogServicesRequest.newBuilder().build();
+        CatalogServicesRequest.Builder svcsRequestBuilder =
+                CatalogServicesRequest.newBuilder();
+        if (token != null && !token.isEmpty())
+            svcsRequestBuilder.setToken(token);
+        CatalogServicesRequest svcsRequest = svcsRequestBuilder.build();
         Map<String, List<String>> getServices =
                 consulClient.getCatalogServices(svcsRequest).getValue();
         
@@ -173,10 +178,12 @@ public class ConsulIOConnectionDirectory extends SimpleDirectory<Connection> {
         for (String service : getServices.keySet()) {
             
             // Get services if they're tagged for guacamole
-            CatalogServiceRequest svcRequest = CatalogServiceRequest
-                    .newBuilder()
-                    .setTag("guacamole")
-                    .build();
+            CatalogServiceRequest.Builder svcBuilder =
+                    CatalogServiceRequest.newBuilder();
+            svcBuilder.setTag("guacamole");
+            if (token != null && !token.isEmpty())
+                svcBuilder.setToken(token);
+            CatalogServiceRequest svcRequest = svcBuilder.build();
             svcList.addAll(consulClient
                     .getCatalogService(service, svcRequest)
                     .getValue());
