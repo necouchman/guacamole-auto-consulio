@@ -26,8 +26,7 @@ import org.apache.guacamole.properties.IntegerGuacamoleProperty;
 import org.apache.guacamole.properties.StringGuacamoleProperty;
 
 /**
- *
- * @author nick_couchman
+ * Configuration service for the Consul.IO authentication provider module.
  */
 public class ConfigurationService {
     
@@ -61,17 +60,6 @@ public class ConfigurationService {
     };
     
     /**
-     * The base of the services to retrieve from Consul.IO
-     */
-    private static final StringGuacamoleProperty CONSUL_IO_BASE =
-            new StringGuacamoleProperty() {
-                
-        @Override
-        public String getName() { return "consul-io-base"; }
-                
-    };
-    
-    /**
      * Retrieve the hostname of the Consul.IO server to connect to, or localhost
      * if none is specified.
      * 
@@ -97,20 +85,6 @@ public class ConfigurationService {
      */
     public int getConsulPort() throws GuacamoleException {
         return environment.getProperty(CONSUL_IO_PORT, 8500);
-    }
-    
-    /**
-     * Retrieve the base of Consul.IO services, or service.consul if it is not
-     * configured.
-     * 
-     * @return
-     *     The base of the services in the Consul.IO server.
-     * 
-     * @throws GuacamoleException 
-     *     If guacamole.properties cannot be parsed.
-     */
-    public String getConsulBase() throws GuacamoleException {
-        return environment.getProperty(CONSUL_IO_BASE, "service.consul");
     }
     
 }
